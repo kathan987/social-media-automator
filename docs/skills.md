@@ -24,8 +24,8 @@ The `yt-*` and `ig-*` tools say `python3`; on Windows run them with `python`.
 ## The dashboard (`dashboard/`)
 A local web app at http://localhost:7071 (`python dashboard/app.py`) over the same folders: weekly targets, projects
 with draft / voice / render / approve buttons, the footage library (auto-indexed by Gemini), a live agent feed, the asset
-library and these docs. It reuses [youtube-agentic-ai-studio](https://github.com/raunakpatil/youtube-agentic-ai-studio)
-(cloned into `yaas/`) for Gemini, fonts and the YouTube client. `dashboard/research.py` adds `score` (Gemini virality
+library and these docs. Its built-in `dashboard/engine.py` loads the keys from `.env`, calls Gemini (with model
+fallback), repairs JSON replies, loads fonts and uploads to YouTube; nothing else to install. `dashboard/research.py` adds `score` (Gemini virality
 check of a render), `trends`, `index-clips`, `incidents` (cut a long recording into clips) and `stock` (Pixabay).
 
 ## Scripts in `tools/`
@@ -40,4 +40,4 @@ check of a render), `trends`, `index-clips`, `incidents` (cut a long recording i
 | `setup_scene.py` | Copies Three.js, GSAP and the font into the scene template after `npm install` |
 
 ## Also used
-FFmpeg (cuts, review sheets, loudness), yt-dlp (research), Node 22+ (HyperFrames), Python 3.11+.
+FFmpeg (cuts, review sheets, loudness), yt-dlp (research), Node 22+ (HyperFrames), Python 3.12+.

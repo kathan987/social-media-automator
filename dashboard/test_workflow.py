@@ -190,7 +190,7 @@ class WorkflowTests(unittest.TestCase):
         meta.update(approved=True, approval_digest=fingerprint)
         w.write(self.path / "meta.json", meta)
         when = (dt.datetime.now(dt.timezone.utc) + dt.timedelta(days=1)).isoformat()
-        with patch("uploader.youtube.upload_to_youtube", return_value="https://www.youtube.com/watch?v=test") as upload:
+        with patch("engine.upload_to_youtube", return_value="https://www.youtube.com/watch?v=test") as upload:
             w.publish(self.path, when)
             self.assertEqual(upload.call_args.kwargs, {"privacy": "private", "publish_at": when, "synthetic": True})
             with self.assertRaises(ValueError): w.publish(self.path, when)
@@ -198,7 +198,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(w.read(self.path / "publish.json")["status"], "scheduled")
 
     def test_shared_uploader_schedule_payload(self):
-        from uploader import youtube
+        import engine as youtube
         service = MagicMock()
         service.videos.return_value.insert.return_value.next_chunk.return_value = (None, {"id": "test"})
         with patch.object(youtube, "_get_service", return_value=service), patch.object(youtube, "MediaFileUpload"):

@@ -1,4 +1,12 @@
+# tools/
 requests>=2.31
 edge-tts>=7.3.1
-Pillow>=10.0
+Pillow>=10.1
 yt-dlp>=2026.10.21
+# dashboard/ (its built-in engine.py uses these)
+flask>=3.0
+moviepy==1.0.3
+numpy>=1.24,<2
+google-genai>=1.0
+google-api-python-client>=2.100
+google-auth-oauthlib>=1.1

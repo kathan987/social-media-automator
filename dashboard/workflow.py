@@ -1,4 +1,4 @@
-"""Filesystem-backed production workflow; reuses YAAS's AI, captions and YouTube client."""
+"""Filesystem-backed production workflow: plan validation, drafting, voice, render and upload (engine.py does the API calls)."""
 import base64
 import datetime as dt
 import hashlib
@@ -11,12 +11,8 @@ import sys
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
-STUDIO = Path(os.environ.get("YAAS_DIR", ROOT / "yaas"))
-sys.path.insert(0, str(STUDIO))
-_inherited_env = set(os.environ)
-import config as studio_config
-from agents.gemini_client import generate
-from agents.json_utils import extract_json
+import engine  # built-in: keys from .env, Gemini, JSON parsing, fonts, YouTube uploader
+from engine import extract_json, generate
 
 
 def config_file():
@@ -24,17 +20,6 @@ def config_file():
     path = ROOT / "config.json"
     return path if path.exists() else ROOT / "config.example.json"
 
-_channel_env = ROOT / ".env"
-if _channel_env.exists():
-    for _line in _channel_env.read_text("utf-8").splitlines():
-        if "=" in _line and not _line.lstrip().startswith("#"):
-            _key = _line.split("=", 1)[0].strip()
-            if _key not in _inherited_env:
-                os.environ.pop(_key, None)
-studio_config._load_env(str(_channel_env))
-for _key in studio_config.ENV_KEYS:
-    if _key in os.environ:
-        setattr(studio_config, _key, os.environ[_key])
 
 
 def read(path):
@@ -489,7 +474,6 @@ def card_image(file, stamp):
 def card_frame(picture, stamp):
     """A picture (image or meme frame) as a big rounded white-bordered card above the gameplay, with its verdict stamp."""
     from PIL import Image, ImageDraw, ImageOps
-    from video import creator
     image = ImageOps.contain(picture.convert("RGB"), CARD_BOX, Image.Resampling.LANCZOS)
     card = Image.new("RGBA", (image.width + 16, image.height + 16), (0, 0, 0, 0))
     ImageDraw.Draw(card).rounded_rectangle([0, 0, card.width - 1, card.height - 1], 30, fill="white")
@@ -497,7 +481,7 @@ def card_frame(picture, stamp):
     ImageDraw.Draw(mask).rounded_rectangle([0, 0, image.width - 1, image.height - 1], 24, fill=255)
     card.paste(image, (8, 8), mask)
     if stamp:
-        draw, font = ImageDraw.Draw(card), creator._load_font("bold", 52)
+        draw, font = ImageDraw.Draw(card), engine.font(52)
         width = draw.textlength(stamp, font=font)
         draw.rounded_rectangle([24, 24, 60 + width, 96], 12, fill=STAMPS[stamp])
         draw.text((42, 30), stamp, font=font, fill="white")
@@ -522,11 +506,10 @@ _fonts = {}
 
 
 def style_font(style, size):
-    """A caption style's TrueType font (assets/fonts), or the studio's bold font for the legacy style."""
+    """A caption style's TrueType font (assets/fonts), or the built-in bold font for the legacy style."""
     from PIL import ImageFont
-    from video import creator
     if not style or not style.get("font"):
-        return creator._load_font("bold", size)
+        return engine.font(size)
     key = (style["font"], size)
     if key not in _fonts:
         _fonts[key] = ImageFont.truetype(str(local_file(ROOT / "assets" / "fonts", style["font"])), size)
@@ -597,7 +580,6 @@ def render(path):
     from moviepy.audio.fx.all import audio_loop
     from moviepy.video.fx.all import freeze, loop
     from PIL import ImageEnhance, ImageFilter
-    from video import creator
     meta, plan = read(path / "meta.json"), read(path / "project.json")
     validate(plan, {**meta, "slug": path.name}, media=True)
     fingerprint = render_inputs(path)
@@ -759,7 +741,7 @@ def render(path):
         days = (launch - dt.date.fromisoformat(plan.get("publish_date") or dt.date.today().isoformat())).days if launch else 0
         badge = f"{days} DAY{'' if days == 1 else 'S'}" if meta["type"] == "news" and days > 0 else ""
         chunks = caption_chunks(words, plan.get("caption_words", config.get("caption_words", 3)))
-        small, big = creator._load_font("bold", 38), creator._load_font("bold", 64)
+        small, big = engine.font(38), engine.font(64)
         hook = plan.get("hook_text", "").upper()
         cstyle = (config.get("caption_styles") or {}).get(plan.get("caption_style", "")) or {}
         if cstyle:
@@ -802,14 +784,14 @@ def render(path):
             if logo:
                 frame.alpha_composite(logo, (540 - logo.width // 2, 28))
             if topic:  # the topic stays pinned top-centre, like a logo
-                tf = creator._load_font("bold", 70)
+                tf = engine.font(70)
                 tw = ImageDraw.Draw(frame).textlength(topic, font=tf)
                 ImageDraw.Draw(frame).rounded_rectangle([540 - tw / 2 - 34, 46, 540 + tw / 2 + 34, 146], 26, fill=(255, 46, 136), outline=YELLOW, width=6)
                 ImageDraw.Draw(frame).text((540 - tw / 2, 56), topic, font=tf, fill="white", stroke_width=3, stroke_fill="black")
             for s in stamps:  # split layout: the verdict lands on the proof, bottom-left of the top half
                 if s["start"] <= t < s["end"]:
                     scale = min(1, .6 + .4 * (t - s["start"]) / .15)
-                    font = creator._load_font("bold", int(78 * scale))
+                    font = engine.font(int(78 * scale))
                     pad, width = 22, ImageDraw.Draw(frame).textlength(s["stamp"], font=font)
                     box = [44, TOP_H - 150, 44 + width + 2 * pad, TOP_H - 150 + int(96 * scale)]
                     ImageDraw.Draw(frame).rounded_rectangle(box, 18, fill=STAMPS[s["stamp"]], outline="white", width=5)
@@ -843,7 +825,6 @@ def render(path):
 
 
 def publish(path, publish_at):
-    from uploader.youtube import upload_to_youtube
     meta, plan = read(path / "meta.json"), read(path / "project.json")
     when = dt.datetime.fromisoformat(publish_at.replace("Z", "+00:00"))
     if when.tzinfo is None or when <= dt.datetime.now(dt.timezone.utc):
@@ -862,15 +843,11 @@ def publish(path, publish_at):
     description = plan.get("description", "")[:4300 - len(credits)] + credits
     payload = {**plan, "description": description, "category_id": "20"}
     write(receipt, {"status": "uploading", "publish_at": publish_at, "started": dt.datetime.now(dt.timezone.utc).isoformat()})
-    secret = studio_config.YOUTUBE_CLIENT_SECRET
-    studio_config.YOUTUBE_CLIENT_SECRET = str(STUDIO / "client_secret.json")
     try:
-        url = upload_to_youtube(payload, str(path / "final.mp4"), privacy="private", publish_at=publish_at,
+        url = engine.upload_to_youtube(payload, str(path / "final.mp4"), privacy="private", publish_at=publish_at,
                                 synthetic=any(s["kind"] in AI_KINDS for s in plan["shots"]))
         write(receipt, {"status": "scheduled", "url": url, "publish_at": publish_at})
     except Exception:
         write(receipt, {"status": "needs_review", "publish_at": publish_at,
                         "error": "Upload did not confirm completion; check YouTube Studio before retrying"})
         raise
-    finally:
-        studio_config.YOUTUBE_CLIENT_SECRET = secret

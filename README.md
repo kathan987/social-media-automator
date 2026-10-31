@@ -44,10 +44,10 @@ In short:
 | Install | Why | Needed? |
 |---|---|---|
 | Claude Code | Runs the agent | Required |
-| Python 3.11+ | The tools and the dashboard | Required |
+| Python 3.12+ | The tools and the dashboard | Required |
 | Node.js 22+ | HyperFrames renderer, Three.js, the Firecrawl MCP server | Required |
 | FFmpeg | Cutting, review sheets, mixing | Required |
-| Git | Cloning this repo and YAAS | Required |
+| Git | Cloning this repo | Required |
 | Deno | Lets yt-dlp read YouTube for research | Recommended |
 
 | Account / API key | Why | Needed? |
@@ -105,17 +105,9 @@ npm install
 
 ## The dashboard
 
-For the dashboard, also clone its engine and install its packages (details in `docs/setup.md` 3.2):
-
-```bash
-git clone https://github.com/raunakpatil/youtube-agentic-ai-studio.git yaas
-```
-
-```bash
-pip install -r yaas/requirements.txt
-```
-
-Then start it:
+Nothing extra to install. The dashboard has its own built-in engine (`dashboard/engine.py`), which loads keys from
+`.env`, calls Gemini with model fallback, repairs JSON replies, loads fonts and uploads to YouTube. It needs
+`GEMINI_API_KEY` in `.env` for drafting, scoring and clip indexing. Start it:
 
 ```bash
 python dashboard/app.py
@@ -129,7 +121,7 @@ Open http://localhost:7071. You get:
 - **Library and Docs:** your assets, and these docs, editable in the browser.
 
 There's no database: it reads and writes the same folders the agent uses. Check it with
-`python -m unittest discover -s dashboard`, which runs 32 offline tests.
+`python -m unittest discover -s dashboard`, which runs 35 offline tests.
 
 ## Create your own video
 

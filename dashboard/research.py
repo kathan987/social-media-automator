@@ -29,11 +29,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 import os  # noqa: E402
-sys.path.insert(0, os.environ.get("YAAS_DIR", str(ROOT / "yaas")))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from google.genai import types  # noqa: E402
-from agents.gemini_client import _get_client  # noqa: E402
-from agents.json_utils import extract_json  # noqa: E402
+from engine import client as _get_client, extract_json  # noqa: E402
 
 MODELS = ("gemini-flash-latest", "gemini-3.5-flash", "gemini-flash-lite-latest")  # aliases survive model retirements
 OUT = ROOT / "research"

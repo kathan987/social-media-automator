@@ -1,10 +1,11 @@
 # secrets
 .env
+client_secret.json
+.youtube_token.json
 
 # dependencies and caches
 node_modules/
 .venv/
-yaas/
 __pycache__/
 .hyperframes/
 renders/

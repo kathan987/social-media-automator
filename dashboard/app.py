@@ -135,14 +135,14 @@ def status():
     done = {t: sum(1 for v in vs if v["type"] == t and v["stages"]["uploaded"] and ws <= v["publication"].get("publish_at", "")[:10] < end) for t in c.get("weekly_targets", {})}
     allocations = [r for p in VIDEOS.glob("*/higgsfield.json") for r in jload(p, {}).get("requests", [])]
     broll = {game: sum(r["kind"] == "higgsfield_broll" and r.get("game") == game and ws <= r["created"] < end for r in allocations) for game in c.get("games", [])}
-    oauth = jload(production.STUDIO / "client_secret.json", {}).get("installed", {})
+    oauth = jload(production.engine.CLIENT_SECRET, {}).get("installed", {})
     youtube_ready = all(isinstance(oauth.get(k), str) and oauth[k] and "YOUR" not in oauth[k].upper() and "PLACEHOLDER" not in oauth[k].upper() for k in ("client_id", "client_secret"))
     music = ROOT / "assets" / "music"
     options = {"kinds": sorted(production.KINDS), "stamps": sorted(production.STAMPS), "moods": sorted(production.MOODS),
                "sfx": sorted(c.get("sfx") or {}), "music": sorted(f.name for f in music.iterdir() if f.is_file()) if music.exists() else []}
     return jsonify(config=c, week_start=ws, done=done, broll_used=broll, videos=vs, options=options,
                    services={"elevenlabs": bool(os.getenv("ELEVENLABS_API_KEY") and os.getenv("ELEVENLABS_VOICE_ID")),
-                             "ai": bool(production.studio_config.GEMINI_API_KEY or os.getenv("GROQ_API_KEY") or os.getenv("OPENROUTER_API_KEY")),
+                             "ai": bool(production.engine.gemini_key()),
                              "youtube": youtube_ready})
 
 

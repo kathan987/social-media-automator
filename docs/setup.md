@@ -7,7 +7,7 @@ Everything you need before your first video, in order. Plan on 30-45 minutes the
 | Program | Why | Needed? | Windows (winget) | macOS (Homebrew) | Linux (apt) | Check |
 |---|---|---|---|---|---|---|
 | **Claude Code** | Runs the agent, the skills and the MCP servers | Required | install from [claude.com/claude-code](https://claude.com/claude-code) | same | same | `claude --version` |
-| **Python 3.11+** | All the tools in `tools/` and the dashboard | Required | `winget install Python.Python.3.11` | `brew install python@3.11` | `sudo apt install python3 python3-venv python3-pip` | `python --version` |
+| **Python 3.12+** (3.11 works) | All the tools in `tools/` and the dashboard | Required | `winget install Python.Python.3.12` | `brew install python@3.12` | `sudo apt install python3 python3-venv python3-pip` | `python --version` |
 | **Node.js 22+** | HyperFrames (the scene renderer), Three.js, GSAP, the Firecrawl MCP server | Required | `winget install OpenJS.NodeJS.LTS` | `brew install node` | [nodejs.org](https://nodejs.org) | `node --version` |
 | **FFmpeg** | Cutting clips, review sheets, mixing, loudness | Required | `winget install Gyan.FFmpeg` | `brew install ffmpeg` | `sudo apt install ffmpeg` | `ffmpeg -version` |
 | **Git** | Cloning this repo and the dependencies | Required | `winget install Git.Git` | `brew install git` | `sudo apt install git` | `git --version` |
@@ -25,7 +25,7 @@ Open a new terminal after installing so the new programs are on your PATH.
 | **Google Gemini** | The dashboard: drafting a project, virality scoring, auto-indexing your clips, trend research | Needed for the dashboard | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) | `.env`: `GEMINI_API_KEY` |
 | **Pixabay** | Free stock clips and photos for real-world comparisons | Optional | pixabay.com/api/docs (free account) | `.env`: `PIXABAY_API_KEY` |
 | **Higgsfield** | AI stills, background removal, upscaling | Optional | connect it in Claude's connector settings | no key in this repo |
-| **YouTube Data API** (OAuth) | Only if you want the dashboard to upload for you; by default you upload by hand | Optional | Google Cloud Console → OAuth client (Desktop) → download `client_secret.json` | `yaas/client_secret.json` |
+| **YouTube Data API** (OAuth) | Only if you want the dashboard to upload for you; by default you upload by hand | Optional | Google Cloud Console → enable YouTube Data API v3 → OAuth client (Desktop app) → download the JSON | `client_secret.json` in the repo root (git-ignored); the first upload opens a browser to sign in |
 
 Keys never go in git: `.env` is ignored, and `.mcp.json` only references `${FIRECRAWL_API_KEY}`.
 
@@ -53,19 +53,8 @@ Activate it: Windows PowerShell `.venv\Scripts\Activate.ps1`, macOS/Linux `sourc
 pip install -r requirements.txt
 ```
 
-**3.2 The dashboard's engine (YAAS).** The dashboard reuses the open-source
-[youtube-agentic-ai-studio](https://github.com/raunakpatil/youtube-agentic-ai-studio) for Gemini, fonts and the YouTube
-client. Clone it into `yaas/` (git-ignored) and install its packages. Skip this if you will not use the dashboard.
-
-```bash
-git clone https://github.com/raunakpatil/youtube-agentic-ai-studio.git yaas
-```
-
-```bash
-pip install -r yaas/requirements.txt
-```
-
-To keep YAAS somewhere else, set `YAAS_DIR` to its folder.
+**3.2 The dashboard.** Nothing extra: that one `pip install` covers it, and its engine (`dashboard/engine.py`: keys,
+Gemini, JSON repair, fonts, YouTube upload) is built in.
 
 **3.3 The scene renderer**
 
@@ -140,7 +129,7 @@ Optional: put a `hero.jpg` (one you own) in `dashboard/assets/` for the Overview
 python -m unittest discover -s dashboard
 ```
 
-All tests should pass (they use temporary folders, spend no credits and need YAAS from step 3.2). Then make your first
+All 35 tests should pass (they use temporary folders and spend no credits). Then make your first
 video: README "Create your own video".
 
 ## Troubleshooting
@@ -148,7 +137,8 @@ video: README "Create your own video".
 | Problem | Fix |
 |---|---|
 | `python3: command not found` (Windows) | Use `python`. The `yt-*` / `ig-*` skills write `python3` in their docs. |
-| `ModuleNotFoundError: config` or `agents` when starting the dashboard | YAAS is missing: step 3.2, or set `YAAS_DIR`. |
+| `ModuleNotFoundError` (flask, moviepy, google) when starting the dashboard | Activate the venv and run `pip install -r requirements.txt` again. |
+| "Set GEMINI_API_KEY in .env" | Add the key from aistudio.google.com/apikey to `.env` and restart the dashboard. |
 | `Missing: node_modules/...` from `setup_scene.py` | Run `npm install` first, and put the font in `assets/fonts/`. |
 | ElevenLabs `quota_exceeded` | Use `tools/vo_edge.py` (free), or top up the plan. |
 | yt-dlp: "Sign in to confirm your age" | That video is age-restricted. Pick another source; do not use your browser cookies. |
