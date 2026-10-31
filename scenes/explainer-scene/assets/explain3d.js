@@ -1,6 +1,6 @@
 // Explainer 3D layer: Three.js 0.187 drawn from HyperFrames' hf-seek time (deterministic, no rAF clock).
 // Reads window.__three = [{kind: "timeline" | "jet", start, end, labels: ["TOP|BOTTOM|#hex", ...]}] (seconds).
-// Used by tools/sticker_short.py when a spec has "three" (docs/formats.md).
+// Used by tools/sticker_short.py when a spec has "three" (docs/video-format.md 5).
 import * as THREE from "./three/three.module.js";
 
 const SPECS = window.__three || [];
@@ -23,38 +23,28 @@ function lit(scene) {
   scene.add(key, rim);
 }
 
-function roundRect(g, x, y, w, h, r) {
-  g.beginPath();
-  g.moveTo(x + r, y);
-  g.arcTo(x + w, y, x + w, y + h, r);
-  g.arcTo(x + w, y + h, x, y + h, r);
-  g.arcTo(x, y + h, x, y, r);
-  g.arcTo(x, y, x + w, y, r);
-  g.closePath();
-}
-
+// Same look as the page's title cards: accent line + kicker, big headline, no box.
 function tag(top, bottom, color) {
   const c = document.createElement("canvas");
-  c.width = 512;
-  c.height = 256;
+  c.width = 640;
+  c.height = 300;
   const g = c.getContext("2d");
-  roundRect(g, 10, 10, 492, 236, 36);
-  g.fillStyle = "rgba(10,10,10,.85)";
-  g.fill();
-  g.lineWidth = 10;
-  g.strokeStyle = color;
-  g.stroke();
-  g.textAlign = "center";
+  g.shadowColor = "rgba(0,0,0,.9)";
+  g.shadowBlur = 22;
+  g.shadowOffsetY = 6;
   g.fillStyle = color;
-  g.font = "64px Bebas";
-  g.fillText(top, 256, 100);
+  g.fillRect(24, 58, 80, 9);
+  g.font = "44px Poppins";
+  g.letterSpacing = "7px";
+  g.fillText(top, 124, 78);
   g.fillStyle = "#ffffff";
-  g.font = "96px Bebas";
-  g.fillText(bottom, 256, 205);
+  g.font = "132px Anton";
+  g.letterSpacing = "0px";
+  g.fillText(bottom, 20, 236);
   const map = new THREE.CanvasTexture(c);
   map.colorSpace = THREE.SRGBColorSpace;
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map, transparent: true, depthTest: false }));
-  s.scale.set(2.0, 1.0, 1);  // portrait frame: about 3.4 units wide at the camera's working distance
+  s.scale.set(2.4, 2.4 * 300 / 640, 1);  // portrait frame: about 3.4 units wide at the camera's working distance
   return s;
 }
 
@@ -84,7 +74,7 @@ function timeline(spec) {
     const slot = dur / n, i0 = Math.min(Math.floor(t / slot), n - 1), u = (t - i0 * slot) / slot;
     const focus = i0 === 0 ? 0 : i0 - 1 + ease(u / 0.4);
     camera.position.set(Math.sin(focus * 1.1) * 0.6, 3.0, 8.5 - focus * gap);  // ~8.5 units behind the marker in focus
-    camera.lookAt(0, 2.5, camera.position.z - 8.5);  // aim high so the ribbon and labels sit below the top captions
+    camera.lookAt(0, 0.2, camera.position.z - 8.5);  // aim low so the labels sit in the upper half, clear of the captions
     marks.forEach((m, i) => {
       const k = Math.min(ease((focus - i + 0.6) / 0.3) * ease(t / 0.3),  // pops in as the camera arrives...
                          1 - ease((focus - i - 0.45) / 0.25));           // ...and fades before the camera flies through it
@@ -125,11 +115,11 @@ function jet() {
   flame.rotation.z = Math.PI / 2;
   flame.position.x = -2.45;
   plane.add(body, nose, canopy, wing, fin, stab, flame);
-  plane.scale.setScalar(0.85);
+  plane.scale.setScalar(0.55);
   scene.add(plane);
   function update(t, dur) {
     const p = clamp(t / dur);
-    plane.position.set(-3.6 + p * 7.2, -4.2 + p * 7.6 + Math.sin(p * Math.PI) * 0.8, 0);
+    plane.position.set(-3.6 + p * 7.2, -0.6 + p * 1.8 + Math.sin(p * Math.PI) * 0.6, 0);  // the band between the title card and the captions
     plane.rotation.set(0.35 + Math.sin(p * 5) * 0.25, 0.55 - p * 0.5, 0.55);
     flame.scale.setScalar(0.8 + 0.25 * Math.sin(t * 40));
   }
@@ -150,7 +140,7 @@ function renderAt(t) {
 }
 
 window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
-document.fonts.load("96px Bebas").then(() => {
+Promise.all([document.fonts.load("132px Anton"), document.fonts.load("44px Poppins")]).then(() => {
   built = SPECS.map((s) => ({ ...s, ...KINDS[s.kind](s) }));
   renderAt(0);
   if (window.__threeReady) window.__threeReady();

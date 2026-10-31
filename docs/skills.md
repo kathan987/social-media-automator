@@ -34,7 +34,7 @@ check of a render), `trends`, `index-clips`, `incidents` (cut a long recording i
 | `find_outliers.py` | Ranks Shorts from hashtag pages by views over their channel's median |
 | `vo_elevenlabs.py` | ElevenLabs voice + word timings -> `vo.mp3`, `words.json` |
 | `vo_edge.py` | Free Microsoft Edge voice + word timings (same outputs) |
-| `sticker_short.py` | Builds the HyperFrames page from `spec.json`: cuts, stickers, badge, captions, Three.js layer |
+| `sticker_short.py` | Builds the HyperFrames page from `spec.json`: kinetic hook, cuts, phrase captions, title cards, motion-graphics modules (poster, form, route, iris), Three.js layer, subscribe end card; writes the sound effects into `mix.json` |
 | `mix.py` | Voice + music + timed sound effects -> `final.mp4` at -14 LUFS |
 | `thumbnail.py` | 9:16 and 16:9 thumbnails from `thumb.json` |
 | `setup_scene.py` | Copies Three.js, GSAP and the font into the scene template after `npm install` |

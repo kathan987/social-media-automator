@@ -80,9 +80,9 @@ pip install -r requirements.txt
 npm install
 ```
 
-1. **Fonts.** Download [Bebas Neue](https://fonts.google.com/specimen/Bebas+Neue) and
-   [Anton](https://fonts.google.com/specimen/Anton) from Google Fonts and put `BebasNeue-Regular.ttf` and
-   `Anton-Regular.ttf` in `assets/fonts/`.
+1. **Fonts.** Download [Bebas Neue](https://fonts.google.com/specimen/Bebas+Neue),
+   [Anton](https://fonts.google.com/specimen/Anton) and [Poppins](https://fonts.google.com/specimen/Poppins) from Google
+   Fonts and put `BebasNeue-Regular.ttf`, `Anton-Regular.ttf` and `Poppins-SemiBold.ttf` in `assets/fonts/`.
 2. **Scene setup.** This copies Three.js, GSAP and the font into the template:
 
    ```bash
@@ -162,8 +162,9 @@ Both write `vo.mp3` and `words.json`, which holds every word with its start time
 
 **5. Scene spec.** Copy `templates/example-explainer/spec.json` to `projects/<slug>/spec.json`. Each cut is
 `[word, after_seconds, clip, {offset, focus, bars, keep}]`, and starts on that word. Each sticker is
-`[id, image or html chip, start word, end word, css]`. `three` adds a 3D timeline or jet between two words, and
-`badge` puts a name pill on top.
+`[id, image or html:<b>TITLE</b><span>KICKER</span> title card, start word, end word, css]`. `hook` is the opening
+kinetic type (`slam` or `roll`), `fx` adds 2-3 motion-graphics modules (`poster`, `form`, `route`, `iris`), `three` adds
+a 3D timeline or jet, `endcard` adds the subscribe end card, and `badge` puts the name on top. `docs/formats.md` explains each.
 
 **6. Build and render.**
 

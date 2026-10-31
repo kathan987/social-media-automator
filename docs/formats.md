@@ -24,11 +24,18 @@ Every brief names one format. Weekly quotas live in `config.json` (`weekly_targe
   questions, in story order, lives in `topics.md`.
 - **Open on the real moment**: a cutscene or gameplay clip from your own recording that proves the claim, at 0.0 s.
 - **Scene recipe** (one HyperFrames composition, built by `tools/sticker_short.py`):
-  1. Your footage of that character's game, full screen, cut on chosen words, never paused.
-  2. Stickers popping in on their nouns: cut-out character art, a photo card from your own footage, text chips.
-  3. One Three.js element where it explains something (`timeline` for an order of events, `jet` for a vehicle; add your
-     own kinds in `scenes/explainer-scene/assets/explain3d.js`). At most 2 Three.js moments per Short.
-  4. A name badge on top (`"badge": "NAME"`), one big caption word at a time.
+  1. **Hook** (`hook`, 0 s to the second cut): the hook line as kinetic type, line 1 already on frame 0. `"slam"` lines
+     rise through a mask with a marker swipe on the key line; `"roll"` letters spin like a departure board.
+  2. Your footage of that character's game, full screen, cut on chosen words, never paused.
+  3. **Captions**: 1-3 word phrases, the spoken word lit in your `accent` colour. **Title cards** for names and places
+     (`html:<b>TITLE</b><span>KICKER</span>`): an accent line, a small kicker and a headline rising through a mask. No boxes.
+  4. **2-3 motion-graphics modules, a different set each Short** (`fx`): `poster` (a wanted-style poster; add `stamp`
+     to land a verdict on it later), `form` (an evaluation form that ticks or crosses rows, then stamps), `route` (a
+     path drawing from pin to pin with a plane), `iris` (lights down to a spotlight). Plus one Three.js element where it
+     explains something (`timeline`, `jet`; add your own in `scenes/explainer-scene/assets/explain3d.js`), at most 2 per Short.
+  5. **End card** (`endcard`): 2.9 s after the last word, the question stays up, your channel row and a subscribe button
+     appear, a cursor clicks it and the bell rings. Needs `assets/logo.jpg`.
+  6. A name badge on top (`"badge": "NAME"`). The builder writes a sound for every action into `mix.json`.
 - Beats: the claim (0-2 s) -> 3-5 beats of proof -> the turning point -> one personal question.
 - **30-45 s**, 75-125 spoken words. Run one character for five Shorts in a row before switching.
 - Titles: "The real reason ...", "The ONLY ...", "Hidden ...". Facts only, two sources.

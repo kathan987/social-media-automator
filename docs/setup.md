@@ -64,9 +64,11 @@ npm install
 
 npm may print an "allow-scripts" warning; the render still works.
 
-**3.4 Fonts.** Download [Bebas Neue](https://fonts.google.com/specimen/Bebas+Neue) and
-[Anton](https://fonts.google.com/specimen/Anton) (free, OFL). Put `BebasNeue-Regular.ttf` and `Anton-Regular.ttf` in
-`assets/fonts/`.
+**3.4 Fonts.** Download [Bebas Neue](https://fonts.google.com/specimen/Bebas+Neue),
+[Anton](https://fonts.google.com/specimen/Anton) and [Poppins](https://fonts.google.com/specimen/Poppins) (free, OFL).
+Put `BebasNeue-Regular.ttf`, `Anton-Regular.ttf` and `Poppins-SemiBold.ttf` in `assets/fonts/`. Optional: a bold serif
+saved as `georgiab.ttf` (wanted poster) and a bold monospace as `consolab.ttf` (evaluation form); without them the
+browser's serif and monospace are used.
 
 **3.5 Copy Three.js, GSAP and the font into the scene template**
 
@@ -99,8 +101,10 @@ Claude from (PowerShell: `$env:FIRECRAWL_API_KEY="fc-..."`, bash/zsh: `export FI
 **3.9 The skills.** Install the YouTube and Instagram packs and the HyperFrames skills (exact commands in
 `docs/skills.md`). The `social-media-automator` skill already ships in `.claude/skills/`.
 
-**3.10 Sounds.** Put five short sound effects in `assets/sfx/`: `whoosh.mp3`, `hit.mp3`, `boom.mp3`,
-`good-ending.mp3`, `bad-ending.mp3` (Pixabay's sound effects allow commercial use). The names are set in `config.json`.
+**3.10 Sounds and logo.** Put short sound effects in `assets/sfx/`: `whoosh.mp3`, `hit.mp3`, `boom.mp3`, `click.mp3`
+(cards, form ticks, the subscribe click), `bell.mp3` (end card), `good-ending.mp3`, `bad-ending.mp3` (Pixabay's sound
+effects allow commercial use). `tools/sticker_short.py` writes the first five into each `mix.json` and skips any that are
+missing. Put your channel logo at `assets/logo.jpg` for the subscribe end card.
 
 **3.11 Your footage.** Put your own recordings in `footage/` and short best-moment cuts (4-14 s) in `footage/clips/`.
 Start each file name with a game or topic code (`rdr2-horse-ride.mp4`): the dashboard groups clips by it.
