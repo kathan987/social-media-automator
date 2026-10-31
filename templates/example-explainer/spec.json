@@ -1,0 +1,30 @@
+{
+ "slug": "2026-10-31-the-worst-decision-arthur-morgan-ever-made",
+ "scene": "explainer-arthur-micah",
+ "template": "explainer-scene",
+ "badge": "ARTHUR MORGAN",
+ "cuts": [
+  ["this", 0, "rdr2-micah-ride-cutscene-storm-take2.mp4", {"offset": 2.8, "keep": [0, 0.8]}],
+  ["chapter", 3, "rdr2-strawberry-jailbreak-shootout-LONG.mp4", {"offset": 27, "bars": true}],
+  ["micah", 7.5, "rdr2-strawberry-jailbreak-shootout-LONG.mp4", {"offset": 200, "focus": 0.8, "keep": [0, 0.8]}],
+  ["arthur", 9, "rdr2-micah-ride-cutscene-take1.mp4", {"offset": 16, "keep": [0, 0.8]}],
+  ["micah", 11, "rdr2-strawberry-jailbreak-shootout-LONG.mp4", {"offset": 262, "keep": [0, 0.8]}],
+  ["but", 15, "rdr2-river-sneak-camp-mission-LONG.mp4", {"offset": 30, "keep": [0.125, 0.78]}],
+  ["arthur", 24, "rdr2-grassland-gallop-horse-rears.mp4", {"offset": 5, "bars": true}],
+  ["he", 28, "rdr2-micah-ride-cutscene-storm-take2.mp4", {"offset": 2.8, "keep": [0, 0.8]}],
+  ["would", 31, "rdr2-river-sneak-camp-mission-LONG.mp4", {"offset": 733, "bars": true, "focus": 0.3}]
+ ],
+ "stickers": [
+  ["arthur", "st/arthur.jpg", ["arthur", 1], ["in", 3], "left:290px;top:1000px;width:500px;border:14px solid #fff;border-radius:22px"],
+  ["c1", "html:<b>CHAPTER 2</b><span>STRAWBERRY</span>", ["chapter", 3], ["micah", 7.5], "left:190px;width:700px;top:1080px"],
+  ["c2", "html:<b>MICAH BELL</b><span>DUE TO HANG</span>", ["micah", 7.5], ["arthur", 9], "left:150px;width:780px;top:1080px"],
+  ["c3", "html:<b>REVOLVERS</b><span>HE WANTED THEM BACK</span>", ["revolvers", 13], ["but", 15], "left:120px;width:840px;top:1080px"],
+  ["c4", "html:<b>NOBODY</b><span>TELLS YOU THIS</span>", ["nobody", 15], ["after", 17], "left:170px;width:740px;top:1080px"],
+  ["c5", "html:<b>AGENT MILTON</b><span>“WE PICKED HIM UP”</span>", ["agent", 26], ["he", 28], "left:110px;width:860px;top:1080px"],
+  ["c6", "html:<b>RAT</b><span>PINKERTON INFORMANT</span>", ["rat", 28.5], ["would", 31], "left:150px;width:780px;top:1080px;border-color:#c1121f"]
+ ],
+ "three": [
+  {"kind": "timeline", "start": ["after", 17], "end": ["arthur", 24],
+   "labels": ["CHAPTER 2|JAILBREAK|#ffd84a", "GUARMA|PICKED UP|#ff9f43", "CHAPTER 6|THE TRUTH|#ff3b4a"]}
+ ]
+}

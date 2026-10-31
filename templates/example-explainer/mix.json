@@ -1,0 +1,97 @@
+{
+ "video": "scenes/explainer-arthur-micah/out.mp4",
+ "out": "projects/2026-10-31-the-worst-decision-arthur-morgan-ever-made/final.mp4",
+ "music": "assets/music/your-track.wav",
+ "music_loop": true,
+ "music_vol": 0.14,
+ "fade_out": 1.2,
+ "sfx": [
+  {
+   "file": "projects/2026-10-31-the-worst-decision-arthur-morgan-ever-made/vo.mp3",
+   "at": 0.0,
+   "vol": 1.0
+  },
+  {
+   "file": "assets/sfx/impact-boom-352465.mp3",
+   "at": 0.0,
+   "vol": 0.45,
+   "dur": 1.6
+  },
+  {
+   "file": "assets/sfx/whoosh-382724.mp3",
+   "at": 3.47,
+   "vol": 0.4
+  },
+  {
+   "file": "assets/sfx/whoosh-382724.mp3",
+   "at": 7.97,
+   "vol": 0.4
+  },
+  {
+   "file": "assets/sfx/whoosh-382724.mp3",
+   "at": 9.46,
+   "vol": 0.4
+  },
+  {
+   "file": "assets/sfx/whoosh-382724.mp3",
+   "at": 11.94,
+   "vol": 0.4
+  },
+  {
+   "file": "assets/sfx/whoosh-382724.mp3",
+   "at": 15.21,
+   "vol": 0.4
+  },
+  {
+   "file": "assets/sfx/whoosh-382724.mp3",
+   "at": 24.36,
+   "vol": 0.4
+  },
+  {
+   "file": "assets/sfx/whoosh-382724.mp3",
+   "at": 28.57,
+   "vol": 0.4
+  },
+  {
+   "file": "assets/sfx/whoosh-382724.mp3",
+   "at": 31.3,
+   "vol": 0.4
+  },
+  {
+   "file": "assets/sfx/impact-hit-352702.mp3",
+   "at": 3.47,
+   "vol": 0.35,
+   "dur": 0.9
+  },
+  {
+   "file": "assets/sfx/impact-hit-352702.mp3",
+   "at": 7.97,
+   "vol": 0.35,
+   "dur": 0.9
+  },
+  {
+   "file": "assets/sfx/impact-hit-352702.mp3",
+   "at": 13.56,
+   "vol": 0.35,
+   "dur": 0.9
+  },
+  {
+   "file": "assets/sfx/impact-hit-352702.mp3",
+   "at": 15.98,
+   "vol": 0.35,
+   "dur": 0.9
+  },
+  {
+   "file": "assets/sfx/impact-hit-352702.mp3",
+   "at": 26.62,
+   "vol": 0.35,
+   "dur": 0.9
+  },
+  {
+   "file": "assets/sfx/impact-hit-352702.mp3",
+   "at": 29.13,
+   "vol": 0.35,
+   "dur": 0.9
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+{
+  "channel_name": "",
+  "niche": "",
+  "weekly_targets": { "news": 7, "didyouknow": 6, "whatif": 5, "explainer_a": 7, "explainer_b": 7 },
+  "limits_per_video": {
+    "min_seconds": 20,
+    "max_seconds": 30,
+    "ai_images": 6,
+    "firecrawl_credits": 20,
+    "higgsfield_credits": 15
+  },
+  "explainer": {
+    "min_seconds": 30,
+    "max_seconds": 45,
+    "per_day": 2,
+    "lead": "explainer_a",
+    "shorts_per_character_run": 5,
+    "max_three_scenes_per_short": 2,
+    "characters": {
+      "explainer_a": { "name": "", "game": "" },
+      "explainer_b": { "name": "", "game": "" }
+    }
+  },
+  "elevenlabs_model": "eleven_v4",
+  "upload": { "privacy": "private", "schedule_required": true }
+}
