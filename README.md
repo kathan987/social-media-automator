@@ -23,6 +23,9 @@ idea ──► research (two sources per claim) ──► 5 hooks scored ──�
 |---|---|
 | `CLAUDE.md` | The agent's standing instructions |
 | `.claude/skills/social-media-automator/` | The whole workflow as one skill Claude can run step by step |
+| `docs/setup.md` | **Installation guide**: every program, account and API key, step by step, plus troubleshooting |
+| `dashboard/` | A local web app (http://localhost:7071) to create, track, render and approve every Short |
+| `.mcp.json` | Connects the Firecrawl MCP server (reads `FIRECRAWL_API_KEY` from your environment) |
 | `docs/workflow.md` | The 13 steps, the tool for each and what it leaves behind |
 | `docs/rules.md` | Facts, footage, AI disclosure, budgets, edit rules, and the monetization goal behind them |
 | `docs/formats.md` | News, did-you-know, what-if and the explainer series format |
@@ -33,9 +36,33 @@ idea ──► research (two sources per claim) ──► 5 hooks scored ──�
 | `scenes/explainer-scene/` | The HyperFrames template with the Three.js layer (`assets/explain3d.js`) and a self-test page |
 | `templates/example-explainer/` | A complete, sourced example project (script, spec, mix, thumbnail, upload text, research) |
 
+## Before your first video: what to install
+
+The full guide, with Windows / macOS / Linux commands and troubleshooting, is **[docs/setup.md](docs/setup.md)**.
+In short:
+
+| Install | Why | Needed? |
+|---|---|---|
+| Claude Code | Runs the agent | Required |
+| Python 3.11+ | The tools and the dashboard | Required |
+| Node.js 22+ | HyperFrames renderer, Three.js, the Firecrawl MCP server | Required |
+| FFmpeg | Cutting, review sheets, mixing | Required |
+| Git | Cloning this repo and YAAS | Required |
+| Deno | Lets yt-dlp read YouTube for research | Recommended |
+
+| Account / API key | Why | Needed? |
+|---|---|---|
+| Claude | The agent | Required |
+| Firecrawl (`FIRECRAWL_API_KEY`) | Research and the two-source fact check | Recommended |
+| ElevenLabs (`ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`) | Voiceover with word timings | Optional: the free Edge voice works without it |
+| Google Gemini (`GEMINI_API_KEY`) | Dashboard: drafts, virality score, clip indexing, trends | Needed for the dashboard |
+| Pixabay (`PIXABAY_API_KEY`) | Free stock clips and photos | Optional |
+| Higgsfield | AI stills, cut-outs | Optional |
+| YouTube Data API OAuth | Only if the dashboard should upload for you | Optional |
+
 ## Quick start
 
-**You need:** Claude Code, Python 3.11+, Node 22+, FFmpeg on your PATH, and git.
+**You need:** everything marked Required above.
 
 ```bash
 git clone https://github.com/kathan987/social-media-automator.git
@@ -75,6 +102,34 @@ npm install
    Connect Firecrawl as an MCP server for research (and Higgsfield if you want AI stills).
 6. **Your footage.** Put your own recordings in `footage/` and short best-moment cuts (4-14 s) in `footage/clips/`.
 7. **Your style.** Fill in `docs/style.md` and `docs/topics.md`.
+
+## The dashboard
+
+For the dashboard, also clone its engine and install its packages (details in `docs/setup.md` 3.2):
+
+```bash
+git clone https://github.com/raunakpatil/youtube-agentic-ai-studio.git yaas
+```
+
+```bash
+pip install -r yaas/requirements.txt
+```
+
+Then start it:
+
+```bash
+python dashboard/app.py
+```
+
+Open http://localhost:7071. You get:
+- **Overview:** this week's uploads against your targets, the review queue, credits used, and your footage library.
+- **Videos:** create a project, run draft, voice and render, approve, and copy the upload text.
+- **Gameplay:** every clip with its index entry. New recordings are indexed by Gemini while the dashboard runs.
+- **Agents:** a live feed of each step.
+- **Library and Docs:** your assets, and these docs, editable in the browser.
+
+There's no database: it reads and writes the same folders the agent uses. Check it with
+`python -m unittest discover -s dashboard`, which runs 32 offline tests.
 
 ## Create your own video
 

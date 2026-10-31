@@ -16,10 +16,17 @@ from their own repos (they are not copied into this one).
 The `yt-*` and `ig-*` tools say `python3`; on Windows run them with `python`.
 
 ## MCP servers (connected in Claude Code)
-| Server | Used for |
-|---|---|
-| Firecrawl | Searching and reading source pages for facts (budget: 20 credits per Short) |
-| Higgsfield (optional) | AI stills, background removal, upscaling (budget: 15 credits per Short) |
+| Server | Used for | How it connects |
+|---|---|---|
+| Firecrawl | Searching and reading source pages for facts (budget: 20 credits per Short) | `.mcp.json` in this repo runs `npx -y firecrawl-mcp` with `FIRECRAWL_API_KEY` from your environment |
+| Higgsfield (optional) | AI stills, background removal, upscaling (budget: 15 credits per Short) | Claude's connector settings |
+
+## The dashboard (`dashboard/`)
+A local web app at http://localhost:7071 (`python dashboard/app.py`) over the same folders: weekly targets, projects
+with draft / voice / render / approve buttons, the footage library (auto-indexed by Gemini), a live agent feed, the asset
+library and these docs. It reuses [youtube-agentic-ai-studio](https://github.com/raunakpatil/youtube-agentic-ai-studio)
+(cloned into `yaas/`) for Gemini, fonts and the YouTube client. `dashboard/research.py` adds `score` (Gemini virality
+check of a render), `trends`, `index-clips`, `incidents` (cut a long recording into clips) and `stock` (Pixabay).
 
 ## Scripts in `tools/`
 | Script | Does |

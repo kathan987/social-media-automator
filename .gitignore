@@ -3,6 +3,8 @@
 
 # dependencies and caches
 node_modules/
+.venv/
+yaas/
 __pycache__/
 .hyperframes/
 renders/

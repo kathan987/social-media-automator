@@ -20,6 +20,9 @@ behind in `projects/<slug>/`. `rules.md` wins wherever it is stricter than this 
 | 12 | **Hand-off** | The owner uploads in YouTube Studio as private + scheduled and ticks "altered or synthetic content" when AI voice or images are used. The agent never publishes. | the live Short |
 | 13 | **Weekly review** | Studio screenshots into `/yt-audit` and `/yt-retention`: top vs bottom Shorts by viewed-vs-swiped, length, hook type. Write the changes back into these docs. | updated `formats.md` / `style.md` |
 
+Prefer buttons? The dashboard (`python dashboard/app.py`, http://localhost:7071) runs steps 3-12 over the same folders and
+logs every step on its Agents page. Setup: `docs/setup.md`.
+
 ## Folder layout
 
 ```

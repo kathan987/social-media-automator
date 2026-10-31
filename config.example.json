@@ -1,11 +1,14 @@
 {
   "channel_name": "",
   "niche": "",
-  "weekly_targets": { "news": 7, "didyouknow": 6, "whatif": 5, "explainer_a": 7, "explainer_b": 7 },
+  "topic_badge": "",
+  "launch_date": "",
+  "weekly_targets": { "news": 7, "didyouknow": 6, "whatif": 5, "explainer_a": 7, "explainer_b": 7, "gameplay": 0 },
   "limits_per_video": {
     "min_seconds": 20,
     "max_seconds": 30,
-    "ai_images": 6,
+    "higgsfield_images": 6,
+    "higgsfield_broll_clips": 0,
     "firecrawl_credits": 20,
     "higgsfield_credits": 15
   },
@@ -20,6 +23,31 @@
       "explainer_a": { "name": "", "game": "" },
       "explainer_b": { "name": "", "game": "" }
     }
+  },
+  "games": ["GTA 5", "RDR2", "Battlefield 6"],
+  "broll_per_game_per_week": 1,
+  "logo": "",
+  "sfx": { "whoosh": "whoosh.mp3", "hit": "hit.mp3", "boom": "boom.mp3", "passed": "good-ending.mp3", "wasted": "bad-ending.mp3" },
+  "library_check": {
+    "motion": "A motion scene built in HyperFrames (or skipped: why)",
+    "higgsfield_image": "An AI still, labelled as an illustration (or skipped: why)",
+    "proof": "An official publisher image or trailer clip",
+    "meme_sfx": "A GIPHY meme plus the sound effects",
+    "gameplay": "Your own gameplay clip that matches the topic",
+    "skills": "Skills run: yt-viral, yt-script + hookscore, yt-shorts, yt-package, yt-seo"
+  },
+  "explainer_check": {
+    "facts": "Every fact is a claim with two sources; the question is taken from docs/topics.md",
+    "gameplay": "Your own footage of that character's game runs under every scene",
+    "stickers": "Stickers (character art, photo cards, chips), each logged with its source URL",
+    "three_d": "A Three.js element in at least one scene, or skipped: why",
+    "images": "Official images or AI stills (within the image cap)",
+    "skills": "yt-script + hookscore, yt-shorts, hyperframes, yt-package, yt-seo"
+  },
+  "caption_styles": {
+    "pop":    { "font": "Anton-Regular.ttf", "size": 134, "fill": "#FFFFFF", "active": "#FF2E88", "scale": 1.12, "stroke": 9, "hook_bg": "#FF2E88", "hook_fg": "#FFFFFF" },
+    "box":    { "font": "BebasNeue-Regular.ttf", "size": 158, "fill": "#FFFFFF", "active": "#FFFFFF", "box": "#00A896", "stroke": 7, "hook_bg": "#00A896", "hook_fg": "#FFFFFF" },
+    "subtle": { "font": "BebasNeue-Regular.ttf", "size": 96, "fill": "#F2F2F2", "active": "#FFFFFF", "stroke": 4, "stroke_fill": "#101010", "hook_bg": "#101010", "hook_fg": "#FFFFFF" }
   },
   "elevenlabs_model": "eleven_v4",
   "upload": { "privacy": "private", "schedule_required": true }
