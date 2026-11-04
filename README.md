@@ -32,7 +32,7 @@ idea ──► research (two sources per claim) ──► 5 hooks scored ──�
 | `docs/style.md`, `docs/topics.md` | Templates you fill in for your channel |
 | `docs/research.md` | How to find outliers, and what the first tests taught |
 | `docs/skills.md` | Every skill, MCP server and script, with install commands |
-| `tools/` | `find_outliers.py`, `vo_elevenlabs.py`, `vo_edge.py`, `sticker_short.py`, `mix.py`, `thumbnail.py`, `setup_scene.py` |
+| `tools/` | `find_outliers.py`, `vo_elevenlabs.py`, `vo_edge.py`, `vo_parts.py`, `sticker_short.py`, `film_short.py`, `mix.py`, `thumbnail.py`, `setup_scene.py` |
 | `scenes/explainer-scene/` | The HyperFrames template with the Three.js layer (`assets/explain3d.js`) and a self-test page |
 | `templates/example-explainer/` | A complete, sourced example project (script, spec, mix, thumbnail, upload text, research) |
 
@@ -197,6 +197,11 @@ python tools/thumbnail.py <slug>
 ```
 
 Then write `upload.json` with the title, a description with every source link, tags and a pinned comment.
+
+**Other formats.** A film-style story from your own gameplay: `python tools/film_short.py projects/<slug>/film.json`.
+Painted beats for an explainer: `scenes/brush-explainers` (`npm run brush-sheet`, `npm run brush-render`). A voice track
+that opens on a real character line: `python tools/vo_parts.py <slug> projects/<slug>/vo-parts.json`. What worked and
+what the owner rejected, with the reasons: [`docs/insights.md`](docs/insights.md).
 
 **10. Upload yourself.** Upload as private and scheduled in YouTube Studio, and tick "altered or synthetic content"
 if the voice or any image is AI.

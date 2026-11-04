@@ -4,7 +4,8 @@ Put the voiceover in as the first "sfx" entry (vol 1.0). Output is loudness-norm
   python mix.py spec.json
 spec: {"video": "...mp4", "out": "...mp4", "music": "...wav", "music_vol": 0.5, "fade_out": 1.5,
        "overlays": [{"file": "...mp4", "x": 60, "y": 700, "w": 960, "h": 880, "start": 29, "end": 33}],
-       "sfx": [{"file": "...mp3", "at": 2.4, "vol": 0.9, "dur": 2.5}]}
+       "sfx": [{"file": "...mp3", "at": 2.4, "vol": 0.9, "dur": 2.5, "fx": "<ffmpeg audio filters>"}],
+       "pre": 1.0}   (seconds of intro prepended to the video, e.g. a 1 s logo sting: every sound shifts with it)
 """
 import json
 import subprocess
@@ -30,9 +31,10 @@ def main(spec):
     for j, c in enumerate(s.get("sfx", []), n + 1):
         args += ["-i", c["file"]]
         trim = f"atrim=0:{c['dur']}," if c.get("dur") else ""
+        trim += f"{c['fx']}," if c.get("fx") else ""  # e.g. the voice boost (EQ + compression), a phone filter + echo
         if c.get("dur") and c.get("fade"):  # soft tail instead of a hard cut (theme stings)
             trim += f"afade=t=out:st={c['dur'] - c['fade']}:d={c['fade']},"
-        ms = int(c["at"] * 1000)
+        ms = int((c["at"] + s.get("pre", 0)) * 1000)  # "pre": seconds of intro prepended to the video (sounds shift with it)
         graph.append(f"[{j}:a]{trim}volume={c.get('vol', 0.9)},adelay={ms}|{ms}[s{j}]")
         mix.append(f"[s{j}]")
     graph.append(f"{''.join(mix)}amix=inputs={len(mix)}:normalize=0,atrim=0:{dur},loudnorm=I=-14:TP=-1.5:LRA=11[aout]")  # YouTube plays at -14 LUFS

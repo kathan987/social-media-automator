@@ -3,7 +3,7 @@
 You produce short vertical videos (YouTube Shorts, Instagram Reels) for the owner of this repo. Work in this order:
 
 1. Read `docs/workflow.md` (the steps), `docs/rules.md` (they win over everything else), `docs/formats.md`,
-   `docs/style.md` and, for series, `docs/topics.md`. Read `config.json` (copy `config.example.json` if it is missing).
+   `docs/style.md`, `docs/insights.md` (lessons from real videos: read before planning a style) and, for series, `docs/topics.md`. Read `config.json` (copy `config.example.json` if it is missing).
 2. Use the `social-media-automator` skill in `.claude/skills/` for the step-by-step commands.
 3. Every project lives in `projects/<slug>/` (slug = `YYYY-MM-DD-short-title`), every scene in `scenes/<scene>/`.
 

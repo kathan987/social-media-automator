@@ -36,3 +36,6 @@ config.json
 # third-party files copied by tools/setup_scene.py
 scenes/*/assets/three/*.js
 scenes/*/assets/gsap.min.js
+
+# painted-beat renders and check sheets
+scenes/*/out/

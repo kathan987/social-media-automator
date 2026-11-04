@@ -4,7 +4,8 @@ Reads videos/<slug>/thumb.json and writes videos/<slug>/thumbnail.jpg (1080x1920
 (1280x720, feed/search). Built from the video's own real assets (official art, cut-outs, frames), never AI likenesses.
 thumb.json: {"bg": "path", "bg2": "path (optional: split screen, bg left/top, bg2 right/bottom)",
              "cutouts": [{"src": "path.png", "x": 0.5, "y": 1.0, "h": 0.62}],   # centre-x, bottom-y, height (fractions)
-             "words": ["TOP LINE", "BIG LINE"], "accent": "#ff4fa3", "badge": "optional small corner text"}
+             "words": ["TOP LINE", "BIG LINE"], "accent": "#ff4fa3", "badge": "optional small corner text",
+             "font": "optional font file in assets/fonts for the words"}
 Paths are relative to the repo root. Words: 2-3, never the title (yt-package rule).
   python tools/thumbnail.py <project-slug>"""
 import json
@@ -61,11 +62,11 @@ def paste_cutout(canvas, src, x, y, h, accent):
     canvas.alpha_composite(cut, (left, top))
 
 
-def text(canvas, words, accent, big):
+def text(canvas, words, accent, big, font=None):
     d = ImageDraw.Draw(canvas)
     w = canvas.width
-    top_f = ImageFont.truetype(str(FONTS / "Anton-Regular.ttf"), int(big * 0.42))
-    big_f = ImageFont.truetype(str(FONTS / "Anton-Regular.ttf"), big)
+    top_f = ImageFont.truetype(str(FONTS / (font or "Anton-Regular.ttf")), int(big * 0.42))
+    big_f = ImageFont.truetype(str(FONTS / (font or "Anton-Regular.ttf")), big)  # thumb.json "font": a per-series display font in assets/fonts
     y = int(canvas.height * 0.05)
     for k, line in enumerate(words):
         f = top_f if (k == 0 and len(words) > 1) else big_f
@@ -100,7 +101,7 @@ def build(spec, w, h):
         landscape = w > h
         paste_cutout(canvas, c["src"], c.get("x16", c["x"]) if landscape else c["x"], c.get("y", 1.0),
                      c.get("h16", c["h"]) if landscape else c["h"], accent)
-    text(canvas, spec["words"], accent, int(min(w, h) * 0.2))
+    text(canvas, spec["words"], accent, int(min(w, h) * 0.2), spec.get("font"))
     if spec.get("badge"):
         d = ImageDraw.Draw(canvas)
         f = ImageFont.truetype(str(FONTS / "BebasNeue-Regular.ttf"), int(min(w, h) * 0.06))

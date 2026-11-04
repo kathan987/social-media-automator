@@ -69,6 +69,10 @@ npm may print an "allow-scripts" warning; the render still works.
 Put `BebasNeue-Regular.ttf`, `Anton-Regular.ttf` and `Poppins-SemiBold.ttf` in `assets/fonts/`. Optional: a bold serif
 saved as `georgiab.ttf` (wanted poster) and a bold monospace as `consolab.ttf` (evaluation form); without them the
 browser's serif and monospace are used.
+For the film format (`tools/film_short.py`) add the **static** Cormorant Garamond weights `CormorantGaramond-Medium.ttf`,
+`-MediumItalic.ttf`, `-SemiBold.ttf` and `-SemiBoldItalic.ttf` (OFL, github.com/CatharsisFonts/Cormorant, `fonts/ttf/`):
+the variable font from Google Fonts is not found by ffmpeg's subtitle renderer and falls back to Arial.
+Optional: `pip install faster-whisper` for exact word times of real dialogue (`tools/vo_parts.py`, film cuts).
 
 **3.5 Copy Three.js, GSAP and the font into the scene template**
 

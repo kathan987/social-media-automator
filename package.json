@@ -5,11 +5,16 @@
   "scripts": {
     "setup": "python tools/setup_scene.py",
     "check": "npx --no-install hyperframes check scenes/explainer-scene",
-    "selftest": "npx --no-install hyperframes render scenes/explainer-scene --quality draft --output scenes/explainer-scene/selftest.mp4"
+    "selftest": "npx --no-install hyperframes render scenes/explainer-scene --quality draft --output scenes/explainer-scene/selftest.mp4",
+    "brush-sheet": "cd scenes/brush-explainers && node render.mjs --sheet=1,5,10,16,22,28 --cols=6 --w=270 --out=out/check/sheet.jpg",
+    "brush-render": "cd scenes/brush-explainers && node render.mjs --clip --fps=30 --out=out/beats.mp4"
   },
   "dependencies": {
     "gsap": "^3.15.0",
     "hyperframes": "0.8.192",
-    "three": "^0.187.0"
+    "three": "^0.187.0",
+    "p5": "^2.3.4",
+    "p5.brush": "3.0.0",
+    "puppeteer-core": "^25.16.0"
   }
 }

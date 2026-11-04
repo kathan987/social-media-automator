@@ -40,5 +40,20 @@ Every brief names one format. Weekly quotas live in `config.json` (`weekly_targe
 - **30-45 s**, 75-125 spoken words. Run one character for five Shorts in a row before switching.
 - Titles: "The real reason ...", "The ONLY ...", "Hidden ...". Facts only, two sources.
 
+## 5. Film story (your own gameplay told like a short film)
+For a recording with real dialogue (calls, cutscenes, NPC reactions). `tools/film_short.py projects/<slug>/film.json`.
+- **50-65 s.** The NPC lines carry it; 3-5 short voice lines at most. Act 1 light and funny, a turn, then emotion.
+- Square film window, serif subtitles keyed to source seconds, chapter lines, a call log or tally if the story has one,
+  a black end card with the payoff line and a soft replay of the key line.
+- Music follows the acts (playful -> slow piano, or a short rock burst on the turn). Make a `"version": "b"` to compare.
+- Example and lessons: `docs/insights.md` section 4.
+
+## 6. Painted explainer beats (inside any explainer)
+p5.brush paintings for moments the footage does not have (a cutscene you did not record, a childhood, a diagnosis).
+`scenes/brush-explainers`: write one shot function per beat in `src/scenes/`, check with `npm run brush-sheet`, render
+with `npm run brush-render`, then cut `out/beats.mp4` into the spec by offset. Paint still lifes, landscapes, silhouettes
+and light, never cartoon people; cut story b-roll between beats. Rules and the brush table: `docs/insights.md` 1-2.
+A real character line can open the voice track: `tools/vo_parts.py` (section 3 of the insights).
+
 ## Add your own
 Copy a section, name the type, give it a quota in `config.json`, and write its beats and length here.
