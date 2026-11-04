@@ -27,15 +27,34 @@ Every brief names one format. Weekly quotas live in `config.json` (`weekly_targe
   1. **Hook** (`hook`, 0 s to the second cut): the hook line as kinetic type, line 1 already on frame 0. `"slam"` lines
      rise through a mask with a marker swipe on the key line; `"roll"` letters spin like a departure board.
   2. Your footage of that character's game, full screen, cut on chosen words, never paused.
-  3. **Captions**: 1-3 word phrases, the spoken word lit in your `accent` colour. **Title cards** for names and places
-     (`html:<b>TITLE</b><span>KICKER</span>`): an accent line, a small kicker and a headline rising through a mask. No boxes.
+  3. **Captions**: 1-3 word phrases, the spoken word lit in your `accent` colour; a pause of 0.3 s ends a phrase.
+     `"keywords": [...]` makes one word per phrase giant, with a punch-in on the footage. `"captions": "plain"` shows
+     small whole phrases (up to 6 words) in Poppins instead, for a quieter, film-like Short. `"nocap": [[from, to], ...]`
+     drops captions while a graphic carries its own labels. **Title cards** for names and places
+     (`html:<b>TITLE</b><span>KICKER</span>`): an accent line, a small kicker and a headline that un-blurs. No boxes.
+     Cards rotate through five spots (`tl`, `tr`, `c`, `ml`, `mr`); `place:xx` in the card's css picks one.
   4. **2-3 motion-graphics modules, a different set each Short** (`fx`): `poster` (a wanted-style poster; add `stamp`
      to land a verdict on it later), `form` (an evaluation form that ticks or crosses rows, then stamps), `route` (a
-     path drawing from pin to pin with a plane), `iris` (lights down to a spotlight). Plus one Three.js element where it
-     explains something (`timeline`, `jet`; add your own in `scenes/explainer-scene/assets/explain3d.js`), at most 2 per Short.
+     path drawing from pin to pin with a plane), `count` (a number ladder rolls), `flip` (a big departure-board number),
+     `doors` (a grid of doors swings open), `light` (a point of light opens into an image), `meter` (a photo with a gauge),
+     `blueprint` (box A -> arrow -> box B), `split` (then vs now panels), `vote` (two answer chips), `notify` (a phone
+     notification types on), `comment` (a comment is typed and posted), `callout` (a red circle and arrow on a point),
+     `iris` (lights down to a spotlight). Their fields are in the JS `FX` functions of the builder. Plus one Three.js
+     element where it explains something (`timeline`, `jet`; add your own in `scenes/explainer-scene/assets/explain3d.js`;
+     `"dim": 0.5` darkens the footage under it), at most 2 per Short.
   5. **End card** (`endcard`): 2.9 s after the last word, the question stays up, your channel row and a subscribe button
      appear, a cursor clicks it and the bell rings. Needs `assets/logo.jpg`.
-  6. A name badge on top (`"badge": "NAME"`). The builder writes a sound for every action into `mix.json`.
+  6. A name badge on top (`"badge": "NAME"`), or your logo (`"logo"`) with a label pill under it (`"pill"`); `"card_top"`
+     moves the top title cards and the hook down. The builder writes a sound for every action into `mix.json`
+     (files from `assets/sfx/`) and puts a voice boost (EQ + compression) on `vo.mp3`. Film grain and a vignette are always on.
+  7. **Per cut** (the 4th item of a `cuts` entry): `offset`, `focus`, `bars`, `keep` as before, plus `fit` (the whole 16:9
+     frame over a blurred fill, for wide subjects; 1.4 zooms in), `still` (freeze the frame at `offset`), `gamma` (lift a
+     dark clip) and `gvol`. The clip is a name in `footage/clips/`, a file under `footage/`, or an absolute path.
+  8. **Clip audio**: `"game_audio": 0.35` mixes every clip's own sound (punches, shots, ambience) under the voice;
+     `gvol` per cut overrides it (0 = silent). The stretches are cut to `projects/<slug>/game/` and added to `mix.json`.
+  9. **Look** (`"look": "rdr"`): a named entry in `LOOK_CSS` in the builder that swaps the display font and palette
+     (`rdr`: a western display font, white and red only; put `ChineseRocks-Regular.otf` in `assets/fonts/`). Add your
+     own entry for your niche.
 - Beats: the claim (0-2 s) -> 3-5 beats of proof -> the turning point -> one personal question.
 - **30-45 s**, 75-125 spoken words. Run one character for five Shorts in a row before switching.
 - Titles: "The real reason ...", "The ONLY ...", "Hidden ...". Facts only, two sources.
